@@ -2,7 +2,7 @@
 <html> 
 <head> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>Rocco's Pet Shop</title>
+<title>Productos - Rocco's Pet Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
@@ -29,7 +29,6 @@ nav a {
     color: white;
     margin: 0 15px;
     text-decoration: none;
-    transition: 0.3s;
 }
 
 nav a:hover {
@@ -41,10 +40,6 @@ section {
     text-align: center;
 }
 
-h2 {
-    margin-bottom: 30px;
-}
-
 .card {
     display: inline-block;
     background: white;
@@ -53,12 +48,20 @@ h2 {
     border-radius: 15px;
     width: 220px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
     border-top: 4px solid #498051;
 }
 
-.card:hover {
-    transform: scale(1.05);
+button {
+    background: #498051;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3b6b44;
 }
 
 footer {
@@ -67,41 +70,40 @@ footer {
     padding: 15px;
     text-align: center;
 }
-</style> 
+</style>
 </head>
 
 <body>
 
 <header>
     <h1>Rocco's Pet Shop</h1>
-    <p>Todo lo que tu mascota necesita</p>
 </header>
 
 <nav>
     <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
     <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
-    <a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
-    <a href="contacto.html"><i class="fa-solid fa-user"></i> Contacto</a>
     <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i> Mi Carrito</a>
 </nav>
 
 <section>
-    <h2>Todos nuestros productos</h2>
+    <h2>Productos</h2>
 
     <div class="card">
         <h3>Comida</h3>
+        <p>$250 MXN</p>
+        <button onclick="agregarCarrito('Comida', 250)">Comprar</button>
     </div>
 
     <div class="card">
         <h3>Juguetes</h3>
+        <p>$120 MXN</p>
+        <button onclick="agregarCarrito('Juguetes', 120)">Comprar</button>
     </div>
 
     <div class="card">
         <h3>Camas</h3>
-    </div>
-
-    <div class="card">
-        <h3>Ropa</h3>
+        <p>$600 MXN</p>
+        <button onclick="agregarCarrito('Camas', 600)">Comprar</button>
     </div>
 
 </section>
@@ -109,6 +111,18 @@ footer {
 <footer>
     <p>© 2026 Rocco's Pet Shop</p>
 </footer>
+
+<script>
+function agregarCarrito(nombre, precio) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    carrito.push({ nombre, precio });
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    alert(nombre + " agregado al carrito 🛒");
+}
+</script>
 
 </body>
 </html>
