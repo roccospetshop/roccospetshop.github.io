@@ -1,5 +1,24 @@
 <!DOCTYPE html>
-<html> 
+<html> <div class="card">
+    <h3>Alimento Premium</h3>
+    <p>$250 MXN</p>
+    <button onclick="comprar()">Comprar</button>
+</div> <script> 
+function comprar() {
+    alert("Producto agregado al carrito 🛒");
+}
+</script> button {
+    background: #498051;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3b6b44;
+}
 <head>
     <title>Rocco's Pet Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -11,7 +30,7 @@
         }
 
         header {
-            background: linear (135deg, #ff9900, #ff5e62);
+            background: #498051;
             padding: 30px;
             text-align: center;
             color: white;
@@ -31,7 +50,7 @@
         }
 
         nav a:hover {
-            color: #ff9900;
+            color: #498051;
         }
 
         section {
