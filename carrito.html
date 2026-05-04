@@ -71,19 +71,28 @@ footer {
 </footer>
 
 <script>
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-let contenedor = document.getElementById("listaCarrito");
-let total = 0;
+document.addEventListener("DOMContentLoaded", function () {
 
-carrito.forEach(producto => {
-    let item = document.createElement("p");
-    item.textContent = producto.nombre + " - $" + producto.precio + " MXN";
-    contenedor.appendChild(item);
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let contenedor = document.getElementById("listaCarrito");
+    let total = 0;
 
-    total += producto.precio;
+    if (carrito.length === 0) {
+        contenedor.innerHTML = "<p>Tu carrito está vacío 🛒</p>";
+        return;
+    }
+
+    carrito.forEach(producto => {
+        let item = document.createElement("p");
+        item.textContent = producto.nombre + " - $" + producto.precio + " MXN";
+        contenedor.appendChild(item);
+
+        total += producto.precio;
+    });
+
+    document.getElementById("total").textContent = "Total: $" + total + " MXN";
+
 });
-
-document.getElementById("total").textContent = "Total: $" + total + " MXN";
 </script>
 
 </body>
