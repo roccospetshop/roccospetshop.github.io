@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Carrito - Rocco's Pet Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f0f2f5;
+}
+
+header {
+    background: #498051;
+    padding: 30px;
+    text-align: center;
+    color: white;
+}
+
+nav {
+    background: #222;
+    padding: 12px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #498051;
+}
+
+section {
+    padding: 40px;
+    text-align: center;
+}
+
+footer {
+    background: #111;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Mi carrito</h1>
+</header>
+
+<nav>
+    <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+    <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+</nav>
+
+<section>
+    <h2>Productos en el carrito</h2>
+    <div id="listaCarrito"></div>
+    <h3 id="total"></h3>
+</section>
+
+<footer>
+    <p>© 2026 Rocco's Pet Shop</p>
+</footer>
+
+<script>
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let contenedor = document.getElementById("listaCarrito");
+let total = 0;
+
+carrito.forEach(producto => {
+    let item = document.createElement("p");
+    item.textContent = producto.nombre + " - $" + producto.precio + " MXN";
+    contenedor.appendChild(item);
+
+    total += producto.precio;
+});
+
+document.getElementById("total").textContent = "Total: $" + total + " MXN";
+</script>
+
+</body>
+</html>
