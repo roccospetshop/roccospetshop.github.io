@@ -11,13 +11,10 @@ body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
 header { background:#498051; padding:30px; text-align:center; color:white; }
 
 nav { background:#222; padding:12px; text-align:center; }
-
 nav a { color:white; margin:0 15px; text-decoration:none; }
 nav a:hover { color:#498051; }
 
-/* carrito icono */
 .carrito-icono { position: relative; }
-
 #contadorCarrito {
 position:absolute;
 top:-8px;
@@ -29,12 +26,7 @@ padding:3px 6px;
 border-radius:50%;
 }
 
-/* lista */
-.lista {
-padding:30px;
-max-width:800px;
-margin:auto;
-}
+.lista { padding:30px; max-width:800px; margin:auto; }
 
 .item {
 display:flex;
@@ -54,9 +46,7 @@ border-radius:8px;
 margin-right:10px;
 }
 
-.info {
-flex:1;
-}
+.info { flex:1; }
 
 .eliminar {
 background:red;
@@ -67,7 +57,6 @@ border-radius:6px;
 cursor:pointer;
 }
 
-/* total */
 .total {
 text-align:center;
 font-size:20px;
@@ -75,7 +64,20 @@ margin:20px;
 font-weight:bold;
 }
 
-/* botón pedido */
+.formulario {
+max-width:400px;
+margin:20px auto;
+text-align:center;
+}
+
+.formulario input {
+width:90%;
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
 .btn-pedido {
 display:block;
 margin:20px auto;
@@ -88,14 +90,12 @@ cursor:pointer;
 font-size:16px;
 }
 
-/* vacío */
 .vacio {
 text-align:center;
 margin-top:40px;
 font-size:18px;
 }
 
-/* footer */
 footer { background:#111; color:white; padding:15px; text-align:center; }
 </style>
 </head>
@@ -123,6 +123,13 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 <div class="vacio" id="mensaje"></div>
 
 <div class="total" id="total"></div>
+
+<!-- FORMULARIO -->
+<div class="formulario">
+<input id="nombre" placeholder="Tu nombre">
+<input id="telefono" placeholder="Tu teléfono">
+<input id="direccion" placeholder="Dirección">
+</div>
 
 <button class="btn-pedido" onclick="realizarPedido()">Realizar pedido</button>
 
@@ -181,15 +188,39 @@ render();
 }
 
 function realizarPedido(){
+let nombre=document.getElementById("nombre").value;
+let telefono=document.getElementById("telefono").value;
+let direccion=document.getElementById("direccion").value;
+
+if(!nombre || !telefono || !direccion){
+alert("Completa todos los datos");
+return;
+}
+
 if(carrito.length===0){
 alert("Tu carrito está vacío");
 return;
 }
 
-alert("Pedido realizado 🎉");
-localStorage.removeItem("carrito");
-actualizarContador();
-render();
+let mensaje="Hola, quiero hacer un pedido:%0A%0A";
+
+carrito.forEach(p=>{
+mensaje+=`- ${p.nombre} ($${p.precio})%0A`;
+});
+
+let total=carrito.reduce((sum,p)=>sum+p.precio,0);
+
+mensaje+=`%0ATotal: $${total}%0A%0A`;
+mensaje+=`Nombre: ${nombre}%0A`;
+mensaje+=`Teléfono: ${telefono}%0A`;
+mensaje+=`Dirección: ${direccion}`;
+
+/* 🔴 CAMBIE ESTE NÚMERO */
+let numero="+522741217744";
+
+let url=`https://wa.me/${numero}?text=${mensaje}`;
+
+window.open(url,"_blank");
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
