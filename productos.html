@@ -51,7 +51,32 @@ button {
     cursor:pointer;
 }
 
+button:hover {
+    background:#3b6b44;
+}
+
 footer { background:#111; color:white; padding:15px; text-align:center; }
+
+/* 🔥 TOAST */
+#toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #498051;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: 0.4s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+#toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 
@@ -62,15 +87,15 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 </header>
 
 <nav>
-    <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
-    <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
-    <a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
-    <a href="contacto.html"><i class="fa-solid fa-user"></i> Contacto</a>
+<a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+<a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
+<a href="contacto.html"><i class="fa-solid fa-user"></i> Contacto</a>
 
-    <a href="carrito.html" class="carrito-icono">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span id="contadorCarrito">0</span>
-    </a>
+<a href="carrito.html" class="carrito-icono">
+<i class="fa-solid fa-cart-shopping"></i>
+<span id="contadorCarrito">0</span>
+</a>
 </nav>
 
 <section>
@@ -98,18 +123,32 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 
 <footer>© 2026 Rocco's Pet Shop</footer>
 
+<!-- 🔥 TOAST -->
+<div id="toast"></div>
+
 <script>
 function actualizarContador(){
 let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
 document.getElementById("contadorCarrito").textContent=carrito.length;
 }
 
+function mostrarToast(mensaje){
+let toast=document.getElementById("toast");
+toast.textContent=mensaje;
+toast.classList.add("mostrar");
+
+setTimeout(()=>{
+toast.classList.remove("mostrar");
+},2000);
+}
+
 function agregarCarrito(nombre,precio){
 let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
 carrito.push({nombre,precio});
 localStorage.setItem("carrito",JSON.stringify(carrito));
+
 actualizarContador();
-alert(nombre+" agregado 🛒");
+mostrarToast(nombre+" agregado al carrito 🛒");
 }
 
 document.addEventListener("DOMContentLoaded",actualizarContador);
