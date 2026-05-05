@@ -2,145 +2,122 @@
 <html> 
 <head> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>Carrito - Rocco's Pet Shop</title>
+<title>Carrito</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #f0f2f5;
-}
+body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
 
-header {
-    background: #498051;
-    padding: 30px;
-    text-align: center;
+header { background:#498051; padding:30px; text-align:center; color:white; }
+
+nav { background:#222; padding:12px; text-align:center; }
+
+nav a { color:white; margin:0 15px; text-decoration:none; }
+
+nav a:hover { color:#498051; }
+
+.carrito-icono { position: relative; }
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: red;
     color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
 }
 
-nav {
-    background: #222;
-    padding: 12px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #498051;
-}
-
-section {
-    padding: 40px;
-    text-align: center;
-}
+section { padding:40px; text-align:center; }
 
 .item {
-    background: white;
-    margin: 10px auto;
-    padding: 15px;
-    border-radius: 10px;
-    width: 300px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background:white;
+    margin:10px auto;
+    padding:15px;
+    border-radius:10px;
+    width:300px;
+    display:flex;
+    justify-content:space-between;
 }
 
 button {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
+    background:red;
+    color:white;
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-button:hover {
-    background: darkred;
-}
-
-footer {
-    background: #111;
-    color: white;
-    padding: 15px;
-    text-align: center;
-}
+footer { background:#111; color:white; padding:15px; text-align:center; }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Mi carrito 🛒</h1>
-</header>
+<header><h1>Mi carrito 🛒</h1></header>
 
 <nav>
-    <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
-    <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+<a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="carrito.html" class="carrito-icono">
+<i class="fa-solid fa-cart-shopping"></i>
+<span id="contadorCarrito">0</span>
+</a>
 </nav>
 
 <section>
-    <h2>Productos en el carrito</h2>
-    <div id="listaCarrito"></div>
-    <h3 id="total"></h3>
+<h2>Productos en el carrito</h2>
+<div id="listaCarrito"></div>
+<h3 id="total"></h3>
 </section>
 
-<footer>
-    <p>© 2026 Rocco's Pet Shop</p>
-</footer>
+<footer>© 2026 Rocco's Pet Shop</footer>
 
 <script>
-function cargarCarrito() {
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    let contenedor = document.getElementById("listaCarrito");
-    let total = 0;
-
-    contenedor.innerHTML = "";
-
-    if (carrito.length === 0) {
-        contenedor.innerHTML = "<p>Tu carrito está vacío 🛒</p>";
-        document.getElementById("total").textContent = "";
-        return;
-    }
-
-    carrito.forEach((producto, index) => {
-        let item = document.createElement("div");
-        item.className = "item";
-
-        let texto = document.createElement("span");
-        texto.textContent = producto.nombre + " - $" + producto.precio;
-
-        let boton = document.createElement("button");
-        boton.textContent = "Eliminar";
-        boton.onclick = () => eliminarProducto(index);
-
-        item.appendChild(texto);
-        item.appendChild(boton);
-
-        contenedor.appendChild(item);
-
-        total += producto.precio;
-    });
-
-    document.getElementById("total").textContent = "Total: $" + total + " MXN";
+function actualizarContador(){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+document.getElementById("contadorCarrito").textContent=carrito.length;
 }
 
-function eliminarProducto(index) {
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+function cargarCarrito(){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+let contenedor=document.getElementById("listaCarrito");
+let total=0;
+contenedor.innerHTML="";
 
-    carrito.splice(index, 1);
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    cargarCarrito();
+if(carrito.length===0){
+contenedor.innerHTML="<p>Carrito vacío 🛒</p>";
+return;
 }
 
-document.addEventListener("DOMContentLoaded", cargarCarrito);
+carrito.forEach((p,i)=>{
+let div=document.createElement("div");
+div.className="item";
+
+div.innerHTML=p.nombre+" - $"+p.precio+
+` <button onclick="eliminar(${i})">X</button>`;
+
+contenedor.appendChild(div);
+total+=p.precio;
+});
+
+document.getElementById("total").textContent="Total: $"+total+" MXN";
+}
+
+function eliminar(i){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+carrito.splice(i,1);
+localStorage.setItem("carrito",JSON.stringify(carrito));
+cargarCarrito();
+actualizarContador();
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+cargarCarrito();
+actualizarContador();
+});
 </script>
 
 </body>
