@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Favoritos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
+<style>
+body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
+
+header { background:#498051; padding:30px; text-align:center; color:white; }
+
+nav { background:#222; padding:12px; text-align:center; }
+
+nav a { color:white; margin:0 15px; text-decoration:none; }
+
+nav a:hover { color:#498051; }
+
+section { padding:40px; text-align:center; }
+
+.item {
+    background:white;
+    margin:10px auto;
+    padding:15px;
+    border-radius:10px;
+    width:300px;
+    display:flex;
+    justify-content:space-between;
+}
+
+button {
+    background:red;
+    color:white;
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+footer { background:#111; color:white; padding:15px; text-align:center; }
+</style>
+</head>
+
+<body>
+
+<header><h1>Favoritos ❤️</h1></header>
+
+<nav>
+<a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+<a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
+<a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i> Carrito</a>
+</nav>
+
+<section>
+<h2>Productos favoritos</h2>
+<div id="listaFav"></div>
+</section>
+
+<footer>© 2026 Rocco's Pet Shop</footer>
+
+<script>
+function cargarFavoritos(){
+let fav=JSON.parse(localStorage.getItem("favoritos"))||[];
+let cont=document.getElementById("listaFav");
+
+cont.innerHTML="";
+
+if(fav.length===0){
+cont.innerHTML="<p>No hay favoritos ❤️</p>";
+return;
+}
+
+fav.forEach((p,i)=>{
+let div=document.createElement("div");
+div.className="item";
+
+div.innerHTML=p.nombre+" - $"+p.precio+
+` <button onclick="eliminarFav(${i})">X</button>`;
+
+cont.appendChild(div);
+});
+}
+
+function eliminarFav(i){
+let fav=JSON.parse(localStorage.getItem("favoritos"))||[];
+fav.splice(i,1);
+localStorage.setItem("favoritos",JSON.stringify(fav));
+cargarFavoritos();
+}
+
+document.addEventListener("DOMContentLoaded",cargarFavoritos);
+</script>
+
+</body>
+</html>
