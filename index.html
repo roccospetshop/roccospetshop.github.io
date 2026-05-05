@@ -6,73 +6,109 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #f0f2f5;
+body { 
+    margin:0; 
+    font-family:'Poppins', sans-serif; 
+    background:#f0f2f5; 
 }
 
-header {
-    background: #498051;
-    padding: 30px;
-    text-align: center;
+header { 
+    background:#498051; 
+    padding:30px; 
+    text-align:center; 
+    color:white; 
+}
+
+nav { 
+    background:#222; 
+    padding:12px; 
+    text-align:center; 
+}
+
+nav a { 
+    color:white; 
+    margin:0 15px; 
+    text-decoration:none; 
+}
+
+nav a:hover { 
+    color:#498051; 
+}
+
+/* 🛒 carrito */
+.carrito-icono { 
+    position: relative; 
+}
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: red;
     color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
 }
 
-nav {
-    background: #222;
-    padding: 12px;
-    text-align: center;
+section { 
+    padding:40px; 
+    text-align:center; 
 }
 
-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    transition: 0.3s;
+footer { 
+    background:#111; 
+    color:white; 
+    padding:15px; 
+    text-align:center; 
 }
-
-nav a:hover {
-    color: #498051;
-}
-
-section {
-    padding: 40px;
-    text-align: center;
-}
-
-footer {
-    background: #111;
-    color: white;
-    padding: 15px;
-    text-align: center;
-}
-</style> 
+</style>
 </head>
 
 <body>
 
 <header>
     <h1>Rocco's Pet Shop</h1>
-    <p>Todo lo que tu mascota necesita</p>
+    <p>Todo lo que tu mascota necesita 🐾</p>
 </header>
 
 <nav>
     <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
     <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
-    <a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
-    <a href="contacto.html"><i class="fa-solid fa-user"></i> Contacto</a>
-    <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i> Mi Carrito</a>
+
+    <a href="carrito.html" class="carrito-icono">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="contadorCarrito">0</span>
+    </a>
 </nav>
 
 <section>
-    <h2>Bienvenido a Rocco's Pet Shop</h2>
+    <h2>Bienvenido</h2>
     <p>Explora nuestros productos en la sección de productos 🐾</p>
+
+    <a href="productos.html">
+        <button style="background:#498051;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;">
+            Ver productos
+        </button>
+    </a>
 </section>
 
 <footer>
     <p>© 2026 Rocco's Pet Shop</p>
 </footer>
+
+<script>
+function actualizarContador(){
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let contador = document.getElementById("contadorCarrito");
+
+    if(contador){
+        contador.textContent = carrito.length;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", actualizarContador);
+</script>
 
 </body>
 </html>
