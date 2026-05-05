@@ -187,7 +187,7 @@ actualizarContador();
 render();
 }
 
-function realizarPedido(){
+async function realizarPedido(){
 let nombre=document.getElementById("nombre").value;
 let telefono=document.getElementById("telefono").value;
 let direccion=document.getElementById("direccion").value;
@@ -202,31 +202,42 @@ alert("Tu carrito está vacío");
 return;
 }
 
-let mensaje="Hola, quiero hacer un pedido:%0A%0A";
-
+// productos en texto
+let productosTexto="";
 carrito.forEach(p=>{
-mensaje+=`- ${p.nombre} ($${p.precio})%0A`;
+productosTexto+=`${p.nombre} ($${p.precio}), `;
 });
 
 let total=carrito.reduce((sum,p)=>sum+p.precio,0);
 
-mensaje+=`%0ATotal: $${total}%0A%0A`;
-mensaje+=`Nombre: ${nombre}%0A`;
-mensaje+=`Teléfono: ${telefono}%0A`;
-mensaje+=`Dirección: ${direccion}`;
+// 🔗 SU URL YA PUESTA
+let url="https://script.google.com/macros/s/AKfycbzxUXIPPf3GLzy_vly4vNI_UjdTtYDx7BwCVCpS1Bv81FqKUOrHVszlCT2GOjHi9FxlrQ/exec";
 
-/* 🔴 CAMBIE ESTE NÚMERO */
-let numero="+522741217744";
+try{
+await fetch(url,{
+method:"POST",
+body:JSON.stringify({
+nombre,
+telefono,
+direccion,
+productos:productosTexto,
+total
+})
+});
 
-let url=`https://wa.me/${numero}?text=${mensaje}`;
+// éxito
+alert("Pedido enviado correctamente 🎉");
 
-window.open(url,"_blank");
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
+// limpiar carrito
+localStorage.removeItem("carrito");
 actualizarContador();
 render();
-});
+
+}catch(error){
+alert("Error al enviar el pedido ❌");
+console.log(error);
+}
+}
 </script>
 
 </body>
