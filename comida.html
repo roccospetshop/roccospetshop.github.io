@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Comida</title>
+<style>
+body{font-family:Poppins;background:#f0f2f5;margin:0;}
+header{background:#498051;color:white;text-align:center;padding:30px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:40px;}
 
+.card{background:white;padding:20px;border-radius:15px;text-align:center;}
+
+button{background:#498051;color:white;border:none;padding:10px;border-radius:8px;cursor:pointer;}
+</style>
+</head>
+
+<body>
+
+<header><h1>Comida para mascotas</h1></header>
+
+<div class="grid">
+
+<div class="card">
+<h3>Dog Chow</h3>
+<p>$250 MXN</p>
+<button onclick="agregarCarrito('Dog Chow',250)">Comprar</button>
+<button onclick="toggleFavorito(this,'Dog Chow',250)">❤️</button>
+</div>
+
+</div>
+
+<script>
+function agregarCarrito(nombre,precio){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+carrito.push({nombre,precio});
+localStorage.setItem("carrito",JSON.stringify(carrito));
+alert("Agregado al carrito");
+}
+
+function toggleFavorito(boton,nombre,precio){
+let fav=JSON.parse(localStorage.getItem("favoritos"))||[];
+fav.push({nombre,precio});
+localStorage.setItem("favoritos",JSON.stringify(fav));
+}
+</script>
+
+</body>
+</html>
