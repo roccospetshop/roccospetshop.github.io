@@ -6,122 +6,110 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #f0f2f5;
-}
+body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
 
-header {
-    background: #498051;
-    padding: 30px;
-    text-align: center;
+header { background:#498051; padding:30px; text-align:center; color:white; }
+
+nav { background:#222; padding:12px; text-align:center; }
+
+nav a { color:white; margin:0 15px; text-decoration:none; }
+
+nav a:hover { color:#498051; }
+
+.carrito-icono { position: relative; }
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: red;
     color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
 }
 
-nav {
-    background: #222;
-    padding: 12px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #498051;
-}
-
-section {
-    padding: 40px;
-    text-align: center;
-}
+section { padding:40px; text-align:center; }
 
 .card {
-    display: inline-block;
-    background: white;
-    padding: 20px;
-    margin: 15px;
-    border-radius: 15px;
-    width: 220px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-top: 4px solid #498051;
+    display:inline-block;
+    background:white;
+    padding:20px;
+    margin:15px;
+    border-radius:15px;
+    width:220px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    border-top:4px solid #498051;
 }
 
 button {
-    background: #498051;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
+    background:#498051;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
 }
 
-button:hover {
-    background: #3b6b44;
-}
-
-footer {
-    background: #111;
-    color: white;
-    padding: 15px;
-    text-align: center;
-}
+footer { background:#111; color:white; padding:15px; text-align:center; }
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>Rocco's Pet Shop</h1>
+<h1>Rocco's Pet Shop</h1>
 </header>
 
 <nav>
-    <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
-    <a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
-    <a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i> Mi Carrito</a>
+<a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+<a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="carrito.html" class="carrito-icono">
+<i class="fa-solid fa-cart-shopping"></i>
+<span id="contadorCarrito">0</span>
+</a>
 </nav>
 
 <section>
-    <h2>Productos</h2>
+<h2>Productos</h2>
 
-    <div class="card">
-        <h3>Comida</h3>
-        <p>$250 MXN</p>
-        <button onclick="agregarCarrito('Comida', 250)">Comprar</button>
-    </div>
+<div class="card">
+<h3>Comida</h3>
+<p>$250 MXN</p>
+<button onclick="agregarCarrito('Comida',250)">Comprar</button>
+</div>
 
-    <div class="card">
-        <h3>Juguetes</h3>
-        <p>$120 MXN</p>
-        <button onclick="agregarCarrito('Juguetes', 120)">Comprar</button>
-    </div>
+<div class="card">
+<h3>Juguetes</h3>
+<p>$120 MXN</p>
+<button onclick="agregarCarrito('Juguetes',120)">Comprar</button>
+</div>
 
-    <div class="card">
-        <h3>Camas</h3>
-        <p>$600 MXN</p>
-        <button onclick="agregarCarrito('Camas', 600)">Comprar</button>
-    </div>
+<div class="card">
+<h3>Camas</h3>
+<p>$600 MXN</p>
+<button onclick="agregarCarrito('Camas',600)">Comprar</button>
+</div>
 
 </section>
 
-<footer>
-    <p>© 2026 Rocco's Pet Shop</p>
-</footer>
+<footer>© 2026 Rocco's Pet Shop</footer>
 
 <script>
-function agregarCarrito(nombre, precio) {
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    carrito.push({ nombre, precio });
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    alert(nombre + " agregado al carrito 🛒");
+function actualizarContador(){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+document.getElementById("contadorCarrito").textContent=carrito.length;
 }
+
+function agregarCarrito(nombre,precio){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+carrito.push({nombre,precio});
+localStorage.setItem("carrito",JSON.stringify(carrito));
+actualizarContador();
+alert(nombre+" agregado 🛒");
+}
+
+document.addEventListener("DOMContentLoaded",actualizarContador);
 </script>
 
 </body>
