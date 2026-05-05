@@ -40,6 +40,30 @@ section {
     text-align: center;
 }
 
+.item {
+    background: white;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: darkred;
+}
+
 footer {
     background: #111;
     color: white;
@@ -52,7 +76,7 @@ footer {
 <body>
 
 <header>
-    <h1>Mi carrito</h1>
+    <h1>Mi carrito 🛒</h1>
 </header>
 
 <nav>
@@ -71,28 +95,52 @@ footer {
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
+function cargarCarrito() {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     let contenedor = document.getElementById("listaCarrito");
     let total = 0;
 
+    contenedor.innerHTML = "";
+
     if (carrito.length === 0) {
         contenedor.innerHTML = "<p>Tu carrito está vacío 🛒</p>";
+        document.getElementById("total").textContent = "";
         return;
     }
 
-    carrito.forEach(producto => {
-        let item = document.createElement("p");
-        item.textContent = producto.nombre + " - $" + producto.precio + " MXN";
+    carrito.forEach((producto, index) => {
+        let item = document.createElement("div");
+        item.className = "item";
+
+        let texto = document.createElement("span");
+        texto.textContent = producto.nombre + " - $" + producto.precio;
+
+        let boton = document.createElement("button");
+        boton.textContent = "Eliminar";
+        boton.onclick = () => eliminarProducto(index);
+
+        item.appendChild(texto);
+        item.appendChild(boton);
+
         contenedor.appendChild(item);
 
         total += producto.precio;
     });
 
     document.getElementById("total").textContent = "Total: $" + total + " MXN";
+}
 
-});
+function eliminarProducto(index) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    carrito.splice(index, 1);
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    cargarCarrito();
+}
+
+document.addEventListener("DOMContentLoaded", cargarCarrito);
 </script>
 
 </body>
