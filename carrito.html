@@ -97,6 +97,18 @@ font-size:18px;
 }
 
 footer { background:#111; color:white; padding:15px; text-align:center; }
+
+/* pantalla final */
+.final {
+display:none;
+text-align:center;
+padding:80px;
+}
+
+.final h2 {
+color:#498051;
+font-size:28px;
+}
 </style>
 </head>
 
@@ -118,20 +130,29 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 </a>
 </nav>
 
+<!-- CARRITO -->
+<div id="contenidoCarrito">
+
 <div class="lista" id="listaCarrito"></div>
-
 <div class="vacio" id="mensaje"></div>
-
 <div class="total" id="total"></div>
 
-<!-- FORMULARIO -->
 <div class="formulario">
-<input id="nombre" placeholder="Tu nombre">
-<input id="telefono" placeholder="Tu teléfono">
-<input id="direccion" placeholder="Dirección">
+<input id="nombre" placeholder="Nombre">
+<input id="telefono" placeholder="Teléfono">
+<input id="direccion" placeholder="Dirección de entrega">
 </div>
 
 <button class="btn-pedido" onclick="realizarPedido()">Realizar pedido</button>
+
+</div>
+
+<!-- PANTALLA FINAL -->
+<div class="final" id="pantallaFinal">
+<h2>✅ ¡Gracias por tu compra!</h2>
+<p>Tu pedido ha sido registrado correctamente</p>
+<p>Redirigiendo al inicio...</p>
+</div>
 
 <footer>© 2026 Rocco's Pet Shop</footer>
 
@@ -193,16 +214,15 @@ let telefono=document.getElementById("telefono").value;
 let direccion=document.getElementById("direccion").value;
 
 if(!nombre || !telefono || !direccion){
-alert("Completa todos los datos");
+mostrarToast("Completa todos los datos ❗");
 return;
 }
 
 if(carrito.length===0){
-alert("Tu carrito está vacío");
+mostrarToast("Tu carrito está vacío 🛒");
 return;
 }
 
-// productos en texto
 let productosTexto="";
 carrito.forEach(p=>{
 productosTexto+=`${p.nombre} ($${p.precio}), `;
@@ -210,7 +230,6 @@ productosTexto+=`${p.nombre} ($${p.precio}), `;
 
 let total=carrito.reduce((sum,p)=>sum+p.precio,0);
 
-// 🔗 SU URL YA PUESTA
 let url="https://script.google.com/macros/s/AKfycbzxUXIPPf3GLzy_vly4vNI_UjdTtYDx7BwCVCpS1Bv81FqKUOrHVszlCT2GOjHi9FxlrQ/exec";
 
 try{
@@ -225,19 +244,56 @@ total
 })
 });
 
-// éxito
-alert("Pedido enviado correctamente 🎉");
-
 // limpiar carrito
 localStorage.removeItem("carrito");
+carrito=[];
+
 actualizarContador();
 render();
 
+// ocultar carrito y mostrar pantalla final
+document.getElementById("contenidoCarrito").style.display="none";
+document.getElementById("pantallaFinal").style.display="block";
+
+mostrarToast("Pedido enviado 🎉");
+
+// redirección automática
+setTimeout(()=>{
+window.location.href="/";
+},4000);
+
 }catch(error){
-alert("Error al enviar el pedido ❌");
+mostrarToast("Error al enviar ❌");
 console.log(error);
 }
 }
+
+function mostrarToast(texto){
+let toast=document.createElement("div");
+
+toast.textContent=texto;
+toast.style.position="fixed";
+toast.style.bottom="20px";
+toast.style.left="50%";
+toast.style.transform="translateX(-50%)";
+toast.style.background="#498051";
+toast.style.color="white";
+toast.style.padding="12px 20px";
+toast.style.borderRadius="10px";
+toast.style.boxShadow="0 4px 10px rgba(0,0,0,0.2)";
+toast.style.zIndex="999";
+
+document.body.appendChild(toast);
+
+setTimeout(()=>{
+toast.remove();
+},3000);
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+actualizarContador();
+render();
+});
 </script>
 
 </body>
