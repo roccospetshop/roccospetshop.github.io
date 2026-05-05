@@ -16,6 +16,7 @@ nav a { color:white; margin:0 15px; text-decoration:none; }
 
 nav a:hover { color:#498051; }
 
+/* 🛒 carrito */
 .carrito-icono { position: relative; }
 
 #contadorCarrito {
@@ -29,6 +30,66 @@ nav a:hover { color:#498051; }
     border-radius: 50%;
 }
 
+/* 🧱 GRID CATÁLOGO */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+/* 📦 CARD */
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* 🖼️ imagen */
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* 📄 contenido */
+.card-content {
+    padding: 15px;
+    text-align: center;
+}
+
+/* 💰 precio */
+.price {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* botones */
+.btn {
+    background:#498051;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.btn:hover {
+    background:#3b6b44;
+}
+
 /* ❤️ favoritos */
 .fav-btn {
     background: none;
@@ -36,8 +97,6 @@ nav a:hover { color:#498051; }
     color: #ccc;
     font-size: 18px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
 }
 
 .fav-btn.activo {
@@ -56,35 +115,6 @@ nav a:hover { color:#498051; }
     animation: rebote 0.4s ease;
 }
 
-section { padding:40px; text-align:center; }
-
-.card {
-    display:inline-block;
-    background:white;
-    padding:20px;
-    margin:15px;
-    border-radius:15px;
-    width:220px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
-    border-top:4px solid #498051;
-}
-
-button {
-    background:#498051;
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-top:5px;
-}
-
-button:hover {
-    background:#3b6b44;
-}
-
-footer { background:#111; color:white; padding:15px; text-align:center; }
-
 /* 🔔 toast */
 #toast {
     position: fixed;
@@ -97,14 +127,14 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
     opacity: 0;
     transform: translateY(-20px);
     transition: 0.4s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 999;
 }
 
 #toast.mostrar {
     opacity: 1;
     transform: translateY(0);
 }
+
+footer { background:#111; color:white; padding:15px; text-align:center; }
 </style>
 </head>
 
@@ -126,37 +156,54 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 </a>
 </nav>
 
-<section>
-<h2>Productos</h2>
+<div class="grid">
 
+<!-- PRODUCTO -->
 <div class="card">
+<img src="https://placedog.net/400/300">
+<div class="card-content">
 <h3>Comida</h3>
-<p>$250 MXN</p>
-<button onclick="agregarCarrito('Comida',250)">Comprar</button>
+<p class="price">$250 MXN</p>
+
+<button class="btn" onclick="agregarCarrito('Comida',250)">Comprar</button>
+
 <button class="fav-btn" onclick="toggleFavorito(this,'Comida',250)">
 <i class="fa-solid fa-heart"></i>
 </button>
 </div>
+</div>
 
+<!-- PRODUCTO -->
 <div class="card">
+<img src="https://placedog.net/401/300">
+<div class="card-content">
 <h3>Juguetes</h3>
-<p>$120 MXN</p>
-<button onclick="agregarCarrito('Juguetes',120)">Comprar</button>
+<p class="price">$120 MXN</p>
+
+<button class="btn" onclick="agregarCarrito('Juguetes',120)">Comprar</button>
+
 <button class="fav-btn" onclick="toggleFavorito(this,'Juguetes',120)">
 <i class="fa-solid fa-heart"></i>
 </button>
 </div>
+</div>
 
+<!-- PRODUCTO -->
 <div class="card">
+<img src="https://placedog.net/402/300">
+<div class="card-content">
 <h3>Camas</h3>
-<p>$600 MXN</p>
-<button onclick="agregarCarrito('Camas',600)">Comprar</button>
+<p class="price">$600 MXN</p>
+
+<button class="btn" onclick="agregarCarrito('Camas',600)">Comprar</button>
+
 <button class="fav-btn" onclick="toggleFavorito(this,'Camas',600)">
 <i class="fa-solid fa-heart"></i>
 </button>
 </div>
+</div>
 
-</section>
+</div>
 
 <footer>© 2026 Rocco's Pet Shop</footer>
 
@@ -180,13 +227,9 @@ toast.classList.remove("mostrar");
 
 function animarCarrito(){
 let icono=document.querySelector(".carrito-icono");
-
 if(icono){
 icono.classList.add("animar-carrito");
-
-setTimeout(()=>{
-icono.classList.remove("animar-carrito");
-},400);
+setTimeout(()=>{icono.classList.remove("animar-carrito");},400);
 }
 }
 
@@ -196,23 +239,20 @@ carrito.push({nombre,precio});
 localStorage.setItem("carrito",JSON.stringify(carrito));
 
 actualizarContador();
-mostrarToast(nombre+" agregado al carrito 🛒");
+mostrarToast(nombre+" agregado 🛒");
 animarCarrito();
 }
 
 function toggleFavorito(boton,nombre,precio){
 let favoritos=JSON.parse(localStorage.getItem("favoritos"))||[];
-
 let index=favoritos.findIndex(p=>p.nombre===nombre);
 
 if(index>-1){
 favoritos.splice(index,1);
 boton.classList.remove("activo");
-mostrarToast(nombre+" eliminado de favoritos 💔");
 }else{
 favoritos.push({nombre,precio});
 boton.classList.add("activo");
-mostrarToast(nombre+" agregado a favoritos ❤️");
 }
 
 localStorage.setItem("favoritos",JSON.stringify(favoritos));
