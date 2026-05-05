@@ -151,6 +151,7 @@ font-size:28px;
 <div class="final" id="pantallaFinal">
 <h2>✅ ¡Gracias por tu compra!</h2>
 <p>Tu pedido ha sido registrado correctamente</p>
+<h3 id="numPedido"></h3>
 <p>Redirigiendo al inicio...</p>
 </div>
 
@@ -208,6 +209,7 @@ actualizarContador();
 render();
 }
 
+// 🔥 FUNCIÓN FINAL CON NÚMERO DE PEDIDO
 async function realizarPedido(){
 let nombre=document.getElementById("nombre").value;
 let telefono=document.getElementById("telefono").value;
@@ -233,7 +235,7 @@ let total=carrito.reduce((sum,p)=>sum+p.precio,0);
 let url="https://script.google.com/macros/s/AKfycbzxUXIPPf3GLzy_vly4vNI_UjdTtYDx7BwCVCpS1Bv81FqKUOrHVszlCT2GOjHi9FxlrQ/exec";
 
 try{
-await fetch(url,{
+let res = await fetch(url,{
 method:"POST",
 body:JSON.stringify({
 nombre,
@@ -244,6 +246,9 @@ total
 })
 });
 
+let data = await res.json();
+let numeroPedido = data.pedido;
+
 // limpiar carrito
 localStorage.removeItem("carrito");
 carrito=[];
@@ -251,16 +256,19 @@ carrito=[];
 actualizarContador();
 render();
 
-// ocultar carrito y mostrar pantalla final
+// mostrar pantalla final
 document.getElementById("contenidoCarrito").style.display="none";
 document.getElementById("pantallaFinal").style.display="block";
 
+// mostrar número
+document.getElementById("numPedido").textContent = numeroPedido;
+
 mostrarToast("Pedido enviado 🎉");
 
-// redirección automática
+// redirección
 setTimeout(()=>{
 window.location.href="/";
-},4000);
+},5000);
 
 }catch(error){
 mostrarToast("Error al enviar ❌");
@@ -268,6 +276,7 @@ console.log(error);
 }
 }
 
+// TOAST
 function mostrarToast(texto){
 let toast=document.createElement("div");
 
