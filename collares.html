@@ -7,12 +7,16 @@
 
 <style>
 body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
+
 header { background:#498051; padding:30px; text-align:center; color:white; }
+
 nav { background:#222; padding:12px; text-align:center; }
 
 nav a { color:white; margin:0 15px; text-decoration:none; }
+
 nav a:hover { color:#498051; }
 
+/* carrito */
 .carrito-icono { position: relative; }
 
 #contadorCarrito {
@@ -26,6 +30,7 @@ padding:3px 6px;
 border-radius:50%;
 }
 
+/* grid */
 .grid {
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -33,6 +38,7 @@ gap:20px;
 padding:40px;
 }
 
+/* card */
 .card {
 background:white;
 border-radius:15px;
@@ -128,21 +134,21 @@ footer { background:#111; color:white; padding:15px; text-align:center; }
 <div class="grid">
 
 <div class="card">
-<img src="collar.jpg">
+<img src="collar-mexicano-para-perro.jpg">
 <div class="card-content">
-<h3>Collar básico</h3>
-<p class="price">$150 MXN</p>
+<h3>Collar mexicano</h3>
+<p class="price">$200 MXN</p>
 
-<button class="btn" onclick="agregarCarrito('Collar básico',150)">Comprar</button>
+<button class="btn" onclick="agregarCarrito('Collar mexicano',200)">Comprar</button>
 
-<button class="fav-btn" onclick="toggleFavorito(this,'Collar básico',150)">
+<button class="fav-btn" onclick="toggleFavorito(this,'Collar mexicano',200)">
 <i class="fa-solid fa-heart"></i>
 </button>
 </div>
 </div>
 
 <div class="card">
-<img src="collar.jpg">
+<img src="collar-mexicano-para-perro.jpg">
 <div class="card-content">
 <h3>Collar premium</h3>
 <p class="price">$300 MXN</p>
@@ -198,9 +204,11 @@ let i=f.findIndex(p=>p.nombre===nombre);
 if(i>-1){
 f.splice(i,1);
 btn.classList.remove("activo");
+mostrarToast(nombre+" eliminado 💔");
 }else{
 f.push({nombre,precio});
 btn.classList.add("activo");
+mostrarToast(nombre+" agregado ❤️");
 }
 
 localStorage.setItem("favoritos",JSON.stringify(f));
