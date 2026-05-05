@@ -2,20 +2,31 @@
 <html> 
 <head> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<title>Contacto - Rocco's Pet Shop</title>
+<title>Contacto</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body { margin:0; font-family:'Poppins'; background:#f0f2f5; }
+body{margin:0;font-family:Poppins;background:#f0f2f5;}
 
-header { background:#498051; padding:30px; text-align:center; color:white; }
+header{background:#498051;color:white;padding:30px;text-align:center;}
 
-nav { background:#222; padding:12px; text-align:center; }
+nav{background:#222;padding:12px;text-align:center;}
+nav a{color:white;margin:0 15px;text-decoration:none;}
+nav a:hover{color:#498051;}
 
-nav a { color:white; margin:0 15px; text-decoration:none; }
-nav a:hover { color:#498051; }
+.carrito-icono{position:relative;}
+#contadorCarrito{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+font-size:12px;
+padding:3px 6px;
+border-radius:50%;
+}
 
-.container {
+.container{
 max-width:500px;
 margin:50px auto;
 background:white;
@@ -25,25 +36,17 @@ box-shadow:0 4px 15px rgba(0,0,0,0.1);
 text-align:center;
 }
 
-.icon {
-font-size:25px;
-margin-bottom:10px;
-color:#498051;
-}
+.icon{font-size:25px;color:#498051;margin-top:15px;}
 
-a {
+a.link{
 display:block;
-margin:10px;
+margin:8px;
 color:#498051;
 text-decoration:none;
 font-weight:bold;
 }
 
-a:hover {
-text-decoration:underline;
-}
-
-footer { background:#111; color:white; padding:15px; text-align:center; margin-top:50px; }
+footer{background:#111;color:white;text-align:center;padding:15px;}
 </style>
 </head>
 
@@ -52,23 +55,28 @@ footer { background:#111; color:white; padding:15px; text-align:center; margin-t
 <header><h1>Contacto</h1></header>
 
 <nav>
-<a href="/">Inicio</a>
-<a href="productos.html">Productos</a>
-<a href="favoritos.html">Favoritos</a>
-<a href="carrito.html">Carrito</a>
+<a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+<a href="productos.html"><i class="fa-solid fa-box"></i> Productos</a>
+<a href="favoritos.html"><i class="fa-solid fa-heart"></i> Favoritos</a>
+<a href="contacto.html"><i class="fa-solid fa-user"></i> Contacto</a>
+
+<a href="carrito.html" class="carrito-icono">
+<i class="fa-solid fa-cart-shopping"></i>
+<span id="contadorCarrito">0</span>
+</a>
 </nav>
 
 <div class="container">
 
 <div class="icon">📧</div>
 <h3>Correo</h3>
-<a href="mailto:roccospetshop@gmail.com">roccospetshop@gmail.com</a>
+<a class="link" href="mailto:roccospetshop@gmail.com">roccospetshop@gmail.com</a>
 
 <div class="icon">📱</div>
-<h3>Redes Sociales</h3>
-<a href="#">Instagram</a>
-<a href="#">Facebook</a>
-<a href="#">WhatsApp</a>
+<h3>Redes</h3>
+<a class="link" href="#">Instagram</a>
+<a class="link" href="#">Facebook</a>
+<a class="link" href="#">WhatsApp</a>
 
 <div class="icon">📍</div>
 <h3>Ubicación</h3>
@@ -77,6 +85,15 @@ footer { background:#111; color:white; padding:15px; text-align:center; margin-t
 </div>
 
 <footer>© 2026 Rocco's Pet Shop</footer>
+
+<script>
+function actualizarContador(){
+let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
+document.getElementById("contadorCarrito").textContent=carrito.length;
+}
+
+document.addEventListener("DOMContentLoaded",actualizarContador);
+</script>
 
 </body>
 </html>
