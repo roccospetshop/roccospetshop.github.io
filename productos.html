@@ -29,6 +29,18 @@ nav a:hover { color:#498051; }
     border-radius: 50%;
 }
 
+/* 🔥 ANIMACIÓN */
+@keyframes rebote {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); }
+    60% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.animar-carrito {
+    animation: rebote 0.4s ease;
+}
+
 section { padding:40px; text-align:center; }
 
 .card {
@@ -142,6 +154,18 @@ toast.classList.remove("mostrar");
 },2000);
 }
 
+function animarCarrito(){
+let icono=document.querySelector(".carrito-icono");
+
+if(icono){
+icono.classList.add("animar-carrito");
+
+setTimeout(()=>{
+icono.classList.remove("animar-carrito");
+},400);
+}
+}
+
 function agregarCarrito(nombre,precio){
 let carrito=JSON.parse(localStorage.getItem("carrito"))||[];
 carrito.push({nombre,precio});
@@ -149,6 +173,7 @@ localStorage.setItem("carrito",JSON.stringify(carrito));
 
 actualizarContador();
 mostrarToast(nombre+" agregado al carrito 🛒");
+animarCarrito();
 }
 
 document.addEventListener("DOMContentLoaded",actualizarContador);
